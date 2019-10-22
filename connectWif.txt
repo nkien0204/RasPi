@@ -1,0 +1,51 @@
+//at first!, enable your wifi card
+sudo apt install rfkill
+rfkill list
+//if the card is blocked, unlock it
+rfkill unblock wifi
+//for desktop Ubunu
+sudo systemctl stop NetworkManager
+sudo systemctl disable NetworkManager
+//find the name of wireless interface, common is "wlan0"
+iwconfig
+//find wifi network, if your interface's not "wlan0" =>> replace it
+sudo iwlist wlan0 scan | grep ESSID
+//install wpa_supplicant to manage wireless setup
+sudo apt install wpasupplicant
+//create a file call "wpa_supplincant.conf"
+wpa_passphrase "wifi's name" "password" | sudo tee /etc/wpa_supplicant.conf
+//connect wireless card and wireless access point
+sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
+//see access point
+iwconfig
+//get IP
+sudo dhclient wlan0
+//see result
+ifconfig
+
+
+//auto connect wifi
+sudo cp /lib/systemd/system/wpa_supplicant.service /etc/systemd/system/wpa_supplicant.service
+sudo nano /etc/systemd/system/wpa_supplicant.service
+//you just open a file, let see on the line "ExecStart ...", then change it to:
+ExecStart=/sbin/wpa_supplicant -u -s -c /etc/wpa_supplicant.conf -i wlan0
+//comment the line "Alias..." by add the # character. Then save and close it
+sudo systemctl enable wpa_supplicant.service
+sudo nano /etc/systemd/system/dhclient.service
+//Then put this text to the file you opened
+[Unit]
+Description= DHCP Client
+Before=network.target
+
+[Service]
+Type=simple
+ExecStart=/sbin/dhclient wlp3s0
+
+[Install]
+WantedBy=multi-user.target
+//save and close it
+sudo systemctl enable dhclient.service
+sudo netplan try
+sudo netplan apply
+//then reboot it and see..
+sudo reboot
