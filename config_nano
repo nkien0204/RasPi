@@ -1,0 +1,2 @@
+go to /etc/nanorc
+uncomment 'set tabsize 2' & 'set tabtospaces'
