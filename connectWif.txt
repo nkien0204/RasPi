@@ -18,34 +18,39 @@ wpa_passphrase "wifi's name" "password" | sudo tee /etc/wpa_supplicant.conf
 sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
 //see access point
 iwconfig
-//get IP
-sudo dhclient wlan0
-//see result
-ifconfig
 
+//auto connect on boot
+//creating a "xx.sh" file in /etc/init.d/, change permission for that file using sudo
+sudo nano xx.sh
+//put the bellow script to the file
+sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i wlan0
 
-//auto connect wifi
-sudo cp /lib/systemd/system/wpa_supplicant.service /etc/systemd/system/wpa_supplicant.service
-sudo nano /etc/systemd/system/wpa_supplicant.service
-//you just open a file, let see on the line "ExecStart ...", then change it to:
-ExecStart=/sbin/wpa_supplicant -u -s -c /etc/wpa_supplicant.conf -i wlan0
-//comment the line "Alias..." by add the # character. Then save and close it
-sudo systemctl enable wpa_supplicant.service
-sudo nano /etc/systemd/system/dhclient.service
-//Then put this text to the file you opened
-[Unit]
-Description= DHCP Client
-Before=network.target
+//config static ip
+sudo nano /etc/netplan/xx.yaml
+//put it on the file
 
-[Service]
-Type=simple
-ExecStart=/sbin/dhclient wlp3s0
+ # This file is generated from information provided by the datasource.  Changes
+ # to it will not persist across an instance reboot.  To disable cloud-init's
+ # network configuration capabilities, write a file
+ # /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+ # network: {config: disabled}
+ network:
+     ethernets:
+         eth0:
+             dhcp4: true
+             optional: true
+     version: 2
+     wifis:
+         wlan0:
+             dhcp4: no
+             addresses: [192.168.1.55/24]
+             gateway4: 192.168.1.1
+             nameservers:
+                 addresses: [192.168.1.1, 8.8.8.8]
+             access-points:
+                 "VIRUS CORANA":
+                     password: "67891234"
 
-[Install]
-WantedBy=multi-user.target
 //save and close it
-sudo systemctl enable dhclient.service
-sudo netplan try
 sudo netplan apply
-//then reboot it and see..
 sudo reboot
