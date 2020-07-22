@@ -1,0 +1,10 @@
+//install nodejs and npm
+//install freenom-dns
+sudo npm install -g freenom-dns
+//edit freenom record
+freenom-dns set www.domain1.tk A 2.3.4.5
+
+//using crontab to update record every day
+sudo crontab -e
+0 12 * * * freenom-dns set www.domain1.tk A 2.3.4.5  //update every 12h
+//save and close file, reboot system
