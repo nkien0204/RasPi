@@ -1,1 +1,1 @@
-# Help you connect to your wireless access point and auto connect it on Raspberry Pi by wpa_supplicant
+# All setting you need to config your Raspberry Pi
