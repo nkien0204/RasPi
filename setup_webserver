@@ -114,6 +114,5 @@ apt-get update
 apt-get install python-certbot-nginx
 //Obtain the SSL/TLS Certificate
 sudo certbot --nginx -d example.com
-//Automatically Renew Let’s Encrypt Certificates (don't use sudo)
-crontab -e
-0 12 * * * /usr/bin/certbot renew --quiet
+//Automatically Renew Let’s Encrypt Certificates
+see "config_crontab" file
