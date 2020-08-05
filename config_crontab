@@ -1,0 +1,7 @@
+run 'crontab -e' (do not use sudo)
+
+
+#!bin/bash
+PATH=/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+0 12 * * * /usr/bin/certbot renew --quiet>>/home/ubuntu/log.txt
+0,10,20,35,40,50 * * * * /home/ubuntu/./croncommand.sh
