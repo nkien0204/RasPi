@@ -1,2 +1,7 @@
 go to /etc/nanorc
 uncomment 'set tabsize 2' & 'set tabtospaces'
+
+
+//for vi
+go to /etc/vim/vimrc
+add "set tabstop=2"
