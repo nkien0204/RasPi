@@ -116,3 +116,6 @@ apt-get install python-certbot-nginx
 sudo certbot --nginx -d example.com
 //Automatically Renew Let’s Encrypt Certificates
 see "config_crontab" file
+
+
+//after setup wordpress, need to install ftp webserver for install plugins
