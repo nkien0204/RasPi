@@ -4,4 +4,4 @@ run 'crontab -e' (do not use sudo)
 #!bin/bash
 PATH=/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 0 12 * * * sudo certbot renew --force-renewal --quiet
-0 * * * * /home/ubuntu/./croncommand.sh
+0 * * * * /home/ubuntu/./updatePublicIP.sh
